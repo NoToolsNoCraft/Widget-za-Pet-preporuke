@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <style>
     body {
-      font-family: 'Times New Roman', serif;
+      font-family: 'Arial', sans-serif;
       background-color: #f3f4f6;
       color: #1f2937;
     }
@@ -22,21 +22,30 @@
     .cta-button:hover {
       background-color: #004182;
     }
+    .email-button {
+      background-color: #f97316;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .email-button:hover {
+      background-color: #ea580c;
+    }
 
     /* Custom styles for Pet Centar branding */
     .pet-centar-btn {
-      background-color: #f97316; /* Pet Centar's orange */
-      transition: background-color 0.3s ease;
+      background-color: #f97316;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      
     }
     .pet-centar-btn:hover {
       background-color: #ea580c;
+      transform: scale(1.05);
     }
     .pet-centar-modal {
       position: fixed;
       top: 0;
-      right: -100%; /* Start off-screen to the right */
+      right: -100%;
       width: 320px;
-      sm:w-96;
       height: 100vh;
       background: white;
       border-left: 2px solid #f97316;
@@ -44,15 +53,17 @@
       transition: right 0.3s ease-in-out;
       z-index: 50;
       overflow-y: auto;
+      padding-top: 1rem;
     }
     .pet-centar-modal.open {
-      right: 0; /* Slide in from the right */
+      right: 0;
     }
     .paw-icon::before {
       content: '🐾';
       margin-right: 8px;
+      font-size: 1.5rem;
+      vertical-align: middle;
     }
-    /* Ensure focus states for accessibility */
     input:focus, select:focus, button:focus {
       outline: 2px solid #f97316;
       outline-offset: 2px;
@@ -60,7 +71,7 @@
     
     /* Error message styling */
     .error-message {
-      color: #dc2626; /* Red for error */
+      color: #dc2626;
       font-size: 0.875rem;
       margin-top: 0.5rem;
       display: none;
@@ -68,21 +79,21 @@
     .error-message.visible {
       display: block;
     }
-    /* Confirmation dialog styling */
+    /* Confirmation dialog styling, inside modal */
     .confirmation-dialog {
       display: none;
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
       background: rgba(0, 0, 0, 0.5);
-      z-index: 100;
+      z-index: 60;
+      justify-content: center;
+      align-items: center;
     }
     .confirmation-dialog.open {
       display: flex;
-      justify-content: center;
-      align-items: center;
     }
     .confirmation-content {
       background: white;
@@ -91,13 +102,14 @@
       border: 2px solid #f97316;
       max-width: 90%;
       text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .confirmation-content button {
       margin: 0.5rem;
       padding: 0.5rem 1rem;
       border-radius: 4px;
     }
-    /* Sticky button styling, now positioned at top-right */
+    /* Sticky button styling */
     .sticky-button {
       position: fixed;
       top: 1rem;
@@ -105,16 +117,16 @@
       z-index: 60;
     }
 
-
     @media (max-width: 500px) {
-    .sticky-button {
-      
-      top: 6rem;
-      
+      .sticky-button {
+        top: 6rem;
+      }
+      .pet-centar-modal {
+        width: 100%;
+      }
     }
-}
     
-    /* Enhanced remove button styling */
+    /* Remove button styling */
     .remove-button {
       display: flex;
       align-items: center;
@@ -136,7 +148,7 @@
       outline: 2px solid #f97316;
       outline-offset: 2px;
     }
-    /* Enhanced close button styling */
+    /* Close button styling */
     .close-button {
       display: flex;
       align-items: center;
@@ -158,12 +170,47 @@
       outline: 2px solid #f97316;
       outline-offset: 2px;
     }
-    /* Profile container styling to prevent overlap */
+    /* Profile container styling */
     .profile-container {
       display: flex;
       flex-direction: column;
       position: relative;
-      padding-right: 32px; /* Space for the remove button */
+      padding-right: 32px;
+      margin-bottom: 1rem;
+    }
+    /* Slogan styling */
+    .slogan {
+      font-style: italic;
+      color: #f97316;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    /* Intro text styling */
+    .intro-text {
+      font-size: 0.875rem;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+    /* Flex container for breed and age fields */
+    .field-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .field-row > div {
+      flex: 1;
+    }
+    @media (max-width: 500px) {
+      .field-row {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+    /* Dog icon styling */
+    .dog-icon {
+      font-size: 1.25rem;
+      margin-right: 0.5rem;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -181,7 +228,7 @@
           <h2 class="text-3xl font-bold mb-4">Zainteresujte Vlasnike Ljubimaca Personalizovanim Preporukama</h2>
           <p class="mb-4 text-lg leading-relaxed">
             Ovaj interaktivni widget omogućava vašim posetiocima da kreiraju profil svog ljubimca i odmah dobiju personalizovane preporuke proizvoda. Idealan je za veb-sajtove koji prodaju hranu za ljubimce, suplemente, igračke i slično — kao što je
-            <a href="https://www.pet-centar.hr/" target="_blank" rel="noopener noreferrer" class="linkedin-blue underline">Pet Centar</a>.
+            <a href="https://www.pet-centar.rs/" target="_blank" rel="noopener noreferrer" class="linkedin-blue underline">Pet Centar</a>.
           </p>
           <p class="mb-4 text-lg">
             Kada korisnik unese ime, vrstu, rasu i starost ljubimca, widget automatski predlaže odgovarajuće proizvode iz vaše ponude — povećavajući angažman i konverzije.
@@ -189,11 +236,18 @@
           <p class="mb-6 text-lg">
             Isprobajte dodatak na ovoj stranici klikom na dugme <strong class="font-semibold">"Dodaj svog ljubimca"</strong> u gornjem desnom uglu.
           </p>
-          <a href="https://www.linkedin.com/in/petar-skrbic/" target="_blank" rel="noopener noreferrer">
-            <button class="cta-button px-6 py-3 rounded-lg font-semibold text-white shadow-md">
-              Kontaktirajte me preko LinkedIna i dodajte Widget na Vaš Sajt
-            </button>
-          </a>
+          <div class="flex space-x-4">
+            <a href="https://www.linkedin.com/in/petar-skrbic/" target="_blank" rel="noopener noreferrer">
+              <button class="cta-button px-6 py-3 rounded-lg font-semibold text-white shadow-md">
+                Kontaktirajte me preko LinkedIna
+              </button>
+            </a>
+            <a href="mailto:notoolsnocraft@gmail.com">
+              <button class="email-button px-6 py-3 rounded-lg font-semibold text-white shadow-md">
+                Kontaktirajte me putem e-pošte
+              </button>
+            </a>
+          </div>
         </div>
         <div>
           <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Ilustracija profila ljubimca" class="w-full max-w-md mx-auto" />
@@ -208,11 +262,10 @@
     </div>
   </footer>
 
-
-<div class="sticky-button" role="region" aria-label="Widget za profil kućnog ljubimca">
+  <div class="sticky-button" role="region" aria-label="Widget za profil kućnog ljubimca">
     <button
       id="toggle-button"
-      class="pet-centar-btn text-white p-3 rounded-full shadow-lg flex items-center focus:ring-2 focus:ring-orange-500"
+      class="pet-centar-btn text-white p-1.5 rounded-full shadow-lg flex items-center focus:ring-2 focus:ring-orange-500"
       aria-expanded="false"
       aria-label="Otvori/zatvori obrazac za profil kućnog ljubimca"
     >
@@ -220,7 +273,18 @@
       Dodaj svog ljubimca
     </button>
     <div id="pet-profile-modal" class="pet-centar-modal bg-white p-6" role="dialog" aria-labelledby="pet-profile-title">
-      <h2 id="pet-profile-title" class="text-xl font-bold mb-4 text-gray-800">Kreiraj profil ljubimca</h2>
+      <button
+        id="close-modal"
+        class="close-button absolute top-2 right-2"
+        aria-label="Zatvori obrazac za profil kućnog ljubimca"
+      >
+        ✕
+      </button>
+      <h2 id="pet-profile-title" class="text-xl font-bold mb-4 text-gray-800">
+        <span class="dog-icon">🐶</span>Kreiraj profil ljubimca
+      </h2>
+      <p class="slogan">Unesite podatke o svom ljubimcu i dobijte personalizovane preporuke proizvoda!</p>
+      
       <div class="mb-4">
         <label for="pet-name" class="block text-sm font-medium text-gray-700">Ime ljubimca</label>
         <input
@@ -245,28 +309,30 @@
           <option value="Riba">Riba</option>
         </select>
       </div>
-      <div class="mb-4">
-        <label for="pet-breed" class="block text-sm font-medium text-gray-700">Pasmina</label>
-        <input
-          id="pet-breed"
-          type="text"
-          placeholder="npr. Labrador"
-          list="breed-suggestions"
-          class="w-full p-2 border rounded focus:ring-2 focus:ring-orange-500"
-          aria-required="true"
-        />
-        <datalist id="breed-suggestions"></datalist>
-      </div>
-      <div class="mb-4">
-        <label for="pet-age" class="block text-sm font-medium text-gray-700">Dob (godine)</label>
-        <input
-          id="pet-age"
-          type="number"
-          placeholder="npr. 2"
-          min="0"
-          class="w-full p-2 border rounded focus:ring-2 focus:ring-orange-500"
-          aria-required="true"
-        />
+      <div class="field-row">
+        <div>
+          <label for="pet-breed" class="block text-sm font-medium text-gray-700">Pasmina</label>
+          <input
+            id="pet-breed"
+            type="text"
+            placeholder="npr. Labrador"
+            list="breed-suggestions"
+            class="w-full p-2 border rounded focus:ring-2 focus:ring-orange-500"
+            aria-required="true"
+          />
+          <datalist id="breed-suggestions"></datalist>
+        </div>
+        <div>
+          <label for="pet-age" class="block text-sm font-medium text-gray-700">Dob (godine)</label>
+          <input
+            id="pet-age"
+            type="number"
+            placeholder="npr. 2"
+            min="0"
+            class="w-full p-2 border rounded focus:ring-2 focus:ring-orange-500"
+            aria-required="true"
+          />
+        </div>
       </div>
       <button
         id="save-profile"
@@ -276,13 +342,6 @@
         Spremi profil
       </button>
       <div id="error-message" class="error-message" role="alert">Molimo ispunite sva polja.</div>
-      <button
-        id="close-modal"
-        class="close-button absolute top-2 right-2"
-        aria-label="Zatvori obrazac za profil kućnog ljubimca"
-      >
-        ✕
-      </button>
       <div id="profiles-list" class="mt-6"></div>
       <div id="confirmation-dialog" class="confirmation-dialog" role="dialog" aria-labelledby="confirm-title">
         <div class="confirmation-content">
@@ -307,26 +366,25 @@
     </div>
   </div>
 
-
-<script>
-    // Product recommendations aligned with Pet Centar catalog
+  <script>
+    // Product recommendations with .rs URLs and RSD prices
     const products = {
       'Pas-Labrador': [
-        { name: 'Royal Canin Labrador Retriever Adult 12kg', url: 'https://www.pet-centar.hr/katalog/royal-canin-labrador-retriever-adult-12kg/14397', price: '71.99€' },
-        { name: 'FORESTO Ovratnik za pse 70cm', url: 'https://www.pet-centar.hr/katalog/foresto-ovratnik-za-pse-70cm/15545', price: '35.99€' }
+        { name: 'Royal Canin Labrador Retriever Adult 12kg', url: 'https://www.pet-centar.rs/products/royal-canin-bhn-labrador-retriever-adult', price: '11.359 RSD' },
+        { name: 'Foresto Ogrlica za pse 70cm', url: 'https://www.pet-centar.rs/products/foresto-elanco-ogrlica-za-pse-protiv-buva-i-krpelja-8kg-70cm', price: '5.599 RSD' }
       ],
       'Pas-Beagle': [
-        { name: 'BRIT Premium by Nature Adult M 15kg', url: 'https://www.pet-centar.hr/katalog/brit-premium-by-nature-adult-m-15kg/15204', price: '49.99€' }
+        { name: 'Brit Premium by Nature Adult M 15kg', url: 'https://www.pet-centar.rs/products/brit-premium-by-nature-adult-medium-breeds', price: '4.899 RSD' }
       ],
       'Mačka-Persian': [
-        { name: 'Canagan Cat Free Run Chicken 4kg', url: 'https://www.pet-centar.hr/katalog/canagan-cat-free-run-chicken-4kg/15987', price: '45.99€' },
-        { name: 'FYPRYST Combo Cat 0.5ml', url: 'https://www.pet-centar.hr/katalog/fypryst-combo-cat-0-5ml/15123', price: '12.99€' }
+        { name: 'Royal Canin Persian Adult 4kg', url: 'https://www.pet-centar.rs/products/royal-canin-fbn-adult-persian', price: '6.599 RSD' },
+        { name: 'Fypryst Combo Cat 0.5ml', url: 'https://www.pet-centar.rs/products/fypryst-combo-krka-ampula-spoton-za-macke-i-feretke-50mg-05ml', price: '749 RSD' }
       ],
       'Mačka-Maine Coon': [
-        { name: 'Royal Canin Maine Coon 10kg', url: 'https://www.pet-centar.hr/katalog/royal-canin-maine-coon-10kg/14392', price: '69.99€' }
+        { name: 'Royal Canin Maine Coon Adult 10kg', url: 'https://www.pet-centar.rs/products/royal-canin-fbn-adult-maine-coon', price: '13.999 RSD' }
       ],
       'default': [
-        { name: 'Istraži sve proizvode', url: 'https://www.pet-centar.hr/katalog', price: '' }
+        { name: 'Istraži sve proizvode', url: 'https://www.pet-centar.rs/collections/svi-proizvodi', price: '' }
       ]
     };
 
@@ -500,6 +558,7 @@
       modal.classList.remove('open');
       toggleButton.setAttribute('aria-expanded', 'false');
       errorMessage.classList.remove('visible');
+      confirmationDialog.classList.remove('open');
     });
     saveButton.addEventListener('click', saveProfile);
     modal.addEventListener('keydown', handleKeyDown);
@@ -507,7 +566,6 @@
     cancelRemoveButton.addEventListener('click', () => {
       confirmationDialog.classList.remove('open');
       profileToRemove = null;
-      modal.classList.add('open');
       petNameInput.focus();
     });
     petTypeSelect.addEventListener('change', updateBreedSuggestions);
@@ -516,5 +574,5 @@
     // Initial render
     renderProfiles();
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966ce74cbb89a900',t:'MTc1Mzc5NTEyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966cec5e5b46bfc5',t:'MTc1Mzc5NTMyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966cf0fd4f3db093',t:'MTc1Mzc5NTUxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966cf58f2abd5911',t:'MTc1Mzc5NTcwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
